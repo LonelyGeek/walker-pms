@@ -29,7 +29,11 @@ public class SysUserService implements UserDetailsService { //1
             sysUser.setUsername("admin");
             sysUser.setPassword("password");
             List<SysRole> roleList = new ArrayList<>();
-            sysUser.setRoles(roleList);
+            SysRole sysRole = new SysRole();
+            sysRole.setId(10001L);
+            sysRole.setName("ROLE_ADMIN");
+            roleList.add(sysRole);
+            sysUser.setRoleList(roleList);
         }
         if(sysUser == null){
             throw new UsernameNotFoundException("用户名不存在");
