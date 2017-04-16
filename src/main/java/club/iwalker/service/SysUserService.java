@@ -1,26 +1,30 @@
 package club.iwalker.service;
 
-import club.iwalker.entity.SysRole;
+import club.iwalker.repository.SysUserRepository;
 import club.iwalker.entity.SysUser;
 import com.google.common.base.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by wangchen on 2017/1/7.
  */
 @Service
-public class SysUserService implements UserDetailsService { //1
+public class SysUserService implements UserDetailsService {
+
+    @Autowired
+    private SysUserRepository sysUserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) { //2
+    public UserDetails loadUserByUsername(String username) {
+        Optional<SysUser> sysUserOptional = sysUserRepository.findByUsername(username);
+        if (sysUserOptional.isPresent()) {
+            return sysUserOptional.get();
+        }
 
-        SysUser sysUser = null;
+        /*SysUser sysUser = null;
 
         Optional<String> optional = Optional.fromNullable(username);
         if (optional.isPresent()) {
@@ -39,6 +43,8 @@ public class SysUserService implements UserDetailsService { //1
             throw new UsernameNotFoundException("用户名不存在");
         }
         return sysUser;
+        */
+        return null;
     }
 
 }
